@@ -17,13 +17,13 @@ namespace Teacher.Controllers
             _context = context;
         }
         /// <summary>
-        /// This method will return a list of teachers
+        /// This method will return a list of students
         /// </summary>
         /// <example>
-        /// GET： api/Teacher/ListTeachers -> [{"teacherId":1,"teacherFirstName":"Alexander","teacherLastName":"Bennett","employeeNumber":"T378","hireDate":"2016-08-05T00:00:00","salary":55.30},{"teacherId":2,"teacherFirstName":"Caitlin","teacherLastName":"Cummings","employeeNumber":"T381","hireDate":"2014-06-10T00:00:00","salary":62.77}.....]
+        /// GET： api/Teacher/ListStudents -> [{"studentId":1,"studentFirstName":"Sarah","studentLastName":"Valdez","studentNumber":"N1678","enrolDate":"2018-06-18T00:00:00"},{"studentId":2,"studentFirstName":"Jennifer","studentLastName":"Faulkner","studentNumber":"N1679","enrolDate":"2018-08-02T00:00:00"}....]
         /// </example>
         /// <returns>
-        /// A list of teacher objects
+        /// A list of students objects
         /// </returns>
 
         [HttpGet]
@@ -73,13 +73,13 @@ namespace Teacher.Controllers
         }
 
         /// <summary>
-        /// Returns a teacher in the database by their ID
+        /// Returns a student in the database by their ID
         /// </summary>
         /// <example>
-        /// GET: api/Teacher/FindTeacher/3 -> {"teacherId":3,"teacherFirstName":"Linda","teacherLastName":"Chan","employeeNumber":"T382","hireDate":"2015-08-22T00:00:00","salary":60.22}
+        /// GET: api/Student/FindStudent/2 -> {"studentId":2,"studentFirstName":"Jennifer","studentLastName":"Faulkner","studentNumber":"N1679","enrolDate":"2018-08-02T00:00:00"}
         /// </example>
         /// <returns>
-        /// A matching author object by its ID. Empty object if Author not found
+        /// A matching student object by its ID. Empty object if student not found
         /// </returns>
         [HttpGet]
         [Route(template: "FindStudent/{id}")]

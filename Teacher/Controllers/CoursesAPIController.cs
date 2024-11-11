@@ -17,13 +17,12 @@ namespace Teacher.Controllers
             _context = context;
         }
         /// <summary>
-        /// This method will return a list of teachers
+        /// This method will return a list of courses
         /// </summary>
         /// <example>
-        /// GET： api/Teacher/ListTeachers -> [{"teacherId":1,"teacherFirstName":"Alexander","teacherLastName":"Bennett","employeeNumber":"T378","hireDate":"2016-08-05T00:00:00","salary":55.30},{"teacherId":2,"teacherFirstName":"Caitlin","teacherLastName":"Cummings","employeeNumber":"T381","hireDate":"2014-06-10T00:00:00","salary":62.77}.....]
-        /// </example>
+        /// GET： api/Course/ListCourses -> [{"courseId":1,"courseCode":"http5101","teacherId":1,"startDate":"2018-09-04T00:00:00","finishDate":"2018-12-14T00:00:00","courseName":"Web Application Development"},{"courseId":2,"courseCode":"http5102","teacherId":2,"startDate":"2018-09-04T00:00:00","finishDate":"2018-12-14T00:00:00","courseName":"Project Management"}.....]
         /// <returns>
-        /// A list of teacher objects
+        /// A list of course objects
         /// </returns>
 
         [HttpGet]
@@ -63,6 +62,7 @@ namespace Teacher.Controllers
                             TeacherId = TeacherId,
                             StartDate = SDate,
                             FinishDate = FDate,
+                            CourseName = Name
 
                         };
 
@@ -75,13 +75,12 @@ namespace Teacher.Controllers
         }
 
         /// <summary>
-        /// Returns a teacher in the database by their ID
+        /// Returns a course in the database by their ID
         /// </summary>
         /// <example>
-        /// GET: api/Teacher/FindTeacher/3 -> {"teacherId":3,"teacherFirstName":"Linda","teacherLastName":"Chan","employeeNumber":"T382","hireDate":"2015-08-22T00:00:00","salary":60.22}
-        /// </example>
+        /// GET: api/Course/FindCourse/1 -> {"courseId":1,"courseCode":"http5101","teacherId":1,"startDate":"2018-09-04T00:00:00","finishDate":"2018-12-14T00:00:00","courseName":"Web Application Development"}]
         /// <returns>
-        /// A matching author object by its ID. Empty object if Author not found
+        /// A matching course object by its ID. Empty object if course not found
         /// </returns>
         [HttpGet]
         [Route(template: "FindCourse/{id}")]

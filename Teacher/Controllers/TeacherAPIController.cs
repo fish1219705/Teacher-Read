@@ -81,7 +81,7 @@ namespace Teacher.Controllers
         /// GET: api/Teacher/FindTeacher/3 -> {"teacherId":3,"teacherFirstName":"Linda","teacherLastName":"Chan","employeeNumber":"T382","hireDate":"2015-08-22T00:00:00","salary":60.22}
         /// </example>
         /// <returns>
-        /// A matching author object by its ID. Empty object if Author not found
+        /// A matching teacher object by its ID. Empty object if teacher not found
         /// </returns>
         [HttpGet]
         [Route(template: "FindTeacher/{id}")]
