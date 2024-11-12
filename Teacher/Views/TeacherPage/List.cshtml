@@ -1,5 +1,15 @@
 ﻿@model IEnumerable<Teacher.Models.ATeacher>
     
+<form method="GET" action="/TeacherPage/List">
+    <div>
+        Please search by the year a teacher was hired, and the teacher's name will be displayed below :
+    </div>
+    <div>
+        <input type="text" name="SearchKey" />
+        <input type="submit" value="Search" />
+    </div>
+</form>
+
 @foreach (Teacher.Models.ATeacher Teacher in Model)
 {
     <div>

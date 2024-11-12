@@ -8,5 +8,6 @@
         public string? EmployeeNumber { get; set; }
         public DateTime HireDate { get; set; }
         public decimal Salary { get; set; }
+        public string? TeacherCourse { get; set; }
     }
 }

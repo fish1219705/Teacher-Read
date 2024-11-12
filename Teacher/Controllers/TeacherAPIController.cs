@@ -30,7 +30,7 @@ namespace Teacher.Controllers
 
         [HttpGet]
         [Route(template: "ListTeachers")]
-        public List<ATeacher> ListTeachers()
+        public List<ATeacher> ListTeachers(string SearchKey=null)
         {
             List<ATeacher> Teachers = new List<ATeacher>();
 
@@ -42,7 +42,13 @@ namespace Teacher.Controllers
 
                 string query = "select * from teachers";
 
+                if (SearchKey != null)
+                {
+                    query += " where hiredate like @key";
+                    Command.Parameters.AddWithValue("@key", $"%{SearchKey}%");
+                }
                 Command.CommandText = query;
+                Command.Prepare();
 
                 using (MySqlDataReader ResultSet = Command.ExecuteReader())
                 {
@@ -93,7 +99,7 @@ namespace Teacher.Controllers
             {
                 Connection.Open();
                 MySqlCommand Command = Connection.CreateCommand();
-                Command.CommandText = "select * from teachers where teacherid=@id";
+                Command.CommandText = "select teachers.*,courses.coursename from teachers left join courses on (teachers.teacherid=courses.teacherid) where teachers.teacherid=@id";
                 Command.Parameters.AddWithValue("@id", id);
 
                 using (MySqlDataReader ResultSet = Command.ExecuteReader())
@@ -107,6 +113,7 @@ namespace Teacher.Controllers
                             string Number = ResultSet["employeenumber"].ToString();
                             DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
                             decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
+                            string courseName = ResultSet["coursename"].ToString();
 
                             SelectedTeacher.TeacherId = Id;
                             SelectedTeacher.TeacherFirstName = FirstName;
@@ -114,6 +121,7 @@ namespace Teacher.Controllers
                             SelectedTeacher.EmployeeNumber = Number;
                             SelectedTeacher.HireDate = TeacherHireDate;
                             SelectedTeacher.Salary = TeacherSalary;
+                            SelectedTeacher.TeacherCourse = courseName;
                         }
                     }
                 }

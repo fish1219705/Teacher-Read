@@ -11,9 +11,9 @@ namespace Teacher.Controllers
         {
             _api = api;
         }
-        public IActionResult List()
+        public IActionResult List(string SearchKey)
         {
-            List<ATeacher> Teachers = _api.ListTeachers();
+            List<ATeacher> Teachers = _api.ListTeachers(SearchKey);
             return View(Teachers);
         }
         
