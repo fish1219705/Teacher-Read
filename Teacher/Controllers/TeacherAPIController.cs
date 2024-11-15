@@ -28,7 +28,7 @@ namespace Teacher.Controllers
 
         [HttpGet]
         [Route(template: "ListTeachers")]
-        public List<ATeacher> ListTeachers(string SearchKey=null)
+        public List<ATeacher> ListTeachers(string SearchKey = null)
         {
             List<ATeacher> Teachers = new List<ATeacher>();
 
@@ -92,6 +92,19 @@ namespace Teacher.Controllers
         public ATeacher FindTeacher(int id)
         {
 
+            if (id < 1 || id > 10)
+            {
+                return new ATeacher
+                {
+                    TeacherFirstName = "Invalid",
+                    TeacherLastName = "ID",
+                    EmployeeNumber = "N/A",
+                    TeacherCourse = "N/A",
+                    HireDate = DateTime.MinValue,
+                    Salary = 0
+                }; // Return an "invalid ID" object or handle this differently
+            }
+
             ATeacher SelectedTeacher = new ATeacher();
             using (MySqlConnection Connection = _context.AccessDatabase())
             {
@@ -120,10 +133,19 @@ namespace Teacher.Controllers
                             SelectedTeacher.HireDate = TeacherHireDate;
                             SelectedTeacher.Salary = TeacherSalary;
                             SelectedTeacher.TeacherCourse = courseName;
-                        }
                     }
                 }
-            return SelectedTeacher;
+            }
+            return SelectedTeacher ?? new ATeacher
+            {
+                TeacherFirstName = "Not",
+                TeacherLastName = "Found",
+                EmployeeNumber = "N/A",
+                TeacherCourse = "N/A",
+                HireDate = DateTime.MinValue,
+                Salary = 0
+            };
+        }
         }
     }
-}
+
