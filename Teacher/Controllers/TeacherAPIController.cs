@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Teacher.Models;
 using System;
-using System.Collections.Generic;
-using Mysqlx.Datatypes;
 
 namespace Teacher.Controllers
 {

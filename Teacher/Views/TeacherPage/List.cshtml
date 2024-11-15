@@ -5,9 +5,35 @@
         Please search by the year a teacher was hired, and the teacher's name will be displayed below :
     </div>
     <div>
-        <input type="text" name="SearchKey" />
-        <input type="submit" value="Search" />
+        <input type="text" name="SearchKey" id="userInput" placeholder="YYYY" />
+        <input type="submit" value="Search" id="searchBtn"/>
     </div>
+
+    <script>
+
+        let form = document.getElementById("userInput");
+        let btn = document.getElementById("searchBtn");
+        btn.addEventListener("click", function (event) {
+
+            let inputValue = form.value.trim();
+            console.log(inputValue);
+
+            let year = parseInt(inputValue, 10);
+
+            if (Number.isInteger(year) && inputValue === year.toString()) {
+                console.log(year);
+
+                if (year < 2012 || year > 2016) {
+                    alert("no teacher found");
+                }
+            } else {
+                alert("invalid number")
+            }
+        
+        }
+        )
+
+    </script>
 </form>
 
 @foreach (Teacher.Models.ATeacher Teacher in Model)
