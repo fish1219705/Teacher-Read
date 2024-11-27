@@ -119,5 +119,42 @@ namespace Teacher.Controllers
             }
             return SelectedCourse;
         }
+
+        [HttpPost(template:"AddCourse")]
+        public int AddCourse([FromBody] Course CourseData)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+                Command.CommandText = "insert into courses (coursecode, teacherid, startdate, finishdate, coursename) values (@coursecode, @teacherid, @startdate, @finishdate, @coursename)";
+                Command.Parameters.AddWithValue("@coursecode", CourseData.CourseCode);
+                Command.Parameters.AddWithValue("@teacherid", CourseData.TeacherId);
+                Command.Parameters.AddWithValue("@startdate", CourseData.StartDate);
+                Command.Parameters.AddWithValue("@finishdate", CourseData.FinishDate);
+                Command.Parameters.AddWithValue("@coursename", CourseData.CourseName);
+
+                Command.ExecuteNonQuery();
+
+                return Convert.ToInt32(Command.LastInsertedId);
+            }
+
+            return 0;
+        }
+
+        [HttpDelete(template: "DeleteCourse/{CourseId}")]
+        public int DeleteCourse(int CourseId)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "delete from courses where courseid=@id";
+                Command.Parameters.AddWithValue("@id", CourseId);
+                return Command.ExecuteNonQuery();
+            }
+            return 0;
+        }
     }
 }

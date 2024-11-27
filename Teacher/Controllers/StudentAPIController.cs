@@ -115,5 +115,41 @@ namespace Teacher.Controllers
             }
             return SelectedStudent;
         }
+
+        [HttpPost(template:"AddStudent")]
+        public int AddStudent([FromBody] Student StudentData)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+                Command.CommandText = "insert into students (studentfname, studentlname, studentnumber, enroldate) values (@studentfname, @studentlname, @studentnumber, @enroldate)";
+                Command.Parameters.AddWithValue("@studentfname", StudentData.StudentFirstName);
+                Command.Parameters.AddWithValue("@studentlname", StudentData.StudentLastName);
+                Command.Parameters.AddWithValue("@studentnumber", StudentData.StudentNumber);
+                Command.Parameters.AddWithValue("@enroldate", StudentData.EnrolDate);
+
+                Command.ExecuteNonQuery();
+
+                return Convert.ToInt32(Command.LastInsertedId);
+            }
+
+            return 0;
+        }
+
+        [HttpDelete(template: "DeleteStudent/{StudentId}")]
+        public int DeleteStudent(int StudentId)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "delete from students where studentid=@id";
+                Command.Parameters.AddWithValue("@id", StudentId);
+                return Command.ExecuteNonQuery();
+            }
+            return 0;
+        }
     }
 }

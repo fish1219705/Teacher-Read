@@ -1,7 +1,7 @@
-﻿
-@model Teacher.Models.ATeacher
+﻿@model Teacher.Models.ATeacher
 <h1>@Model.TeacherFirstName @Model.TeacherLastName</h1>
+<a href="/TeacherPage/List">Back to List</a> <a class="alert-warning" href="/TeacherPage/DeleteConfirm/@Model.TeacherId">Delete</a>
 <p>Employee Number: @Model.EmployeeNumber</p>
-<p>Hire Date: @Model.HireDate.ToString("yyyy-M-d")</p>
+<p><span style="font-style:italic">Hire Date: @Model.HireDate.ToString("yyyy-M-d")</span></p>
 <p>Salary: @Model.Salary.ToString()</p>
 <p>Courses: @Model.TeacherCourse.ToString()</p>

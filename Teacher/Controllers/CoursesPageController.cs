@@ -1,5 +1,6 @@
 ﻿using Teacher.Models;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace Teacher.Controllers
 {
@@ -21,7 +22,34 @@ namespace Teacher.Controllers
         {
             Course SelectedCourse = _api.FindCourse(id);
             return View(SelectedCourse);
+        }
 
+        [HttpGet]
+        public IActionResult New(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Course NewCourse)
+        {
+            int CourseId = _api.AddCourse(NewCourse);
+
+            return RedirectToAction("Show", new {id = CourseId});
+        }
+
+        [HttpGet]
+        public IActionResult DeleteConfirm(int id)
+        {
+            Course SelectedCourse = _api.FindCourse(id);
+            return View(SelectedCourse);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            int CourseId = _api.DeleteCourse(id);
+            return RedirectToAction("List");
         }
     }
 }

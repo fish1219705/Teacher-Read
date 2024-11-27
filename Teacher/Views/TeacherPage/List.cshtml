@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Teacher.Models.ATeacher>
     
+<a style="margin-bottom:10px;" href="/TeacherPage/New">Add Teacher</a>
+
 <form method="GET" action="/TeacherPage/List">
-    <div>
-        Please search by the year a teacher was hired, and the teacher's name will be displayed below :
-    </div>
+
     <div>
         <input type="text" name="SearchKey" id="userInput" placeholder="YYYY" />
         <input type="submit" value="Search" id="searchBtn"/>
     </div>
 
-    <script>
+   @*  <script>
 
         let form = document.getElementById("userInput");
         let btn = document.getElementById("searchBtn");
@@ -33,10 +33,10 @@
         }
         )
 
-    </script>
+    </script> *@
 </form>
 
-
+<h2>Teacher List:</h2>
 @foreach (Teacher.Models.ATeacher Teacher in Model)
 {
     <div>
