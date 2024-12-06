@@ -20,7 +20,9 @@
   - A View which uses server rendering to display a page that allows for a user to enter a new teacher
 - /Views/TeacherPage/DeleteConfirm.cshtml
   - A View which uses server rendering to display a “Confirm Delete” page for a teacher from the MySQL Database
-
+- /Views/TeacherPage/Edit.cshtml
+  - A View which uses server rendering to display a page that allows for a user to Update a teacher
+    
  
 - Controllers/StudentAPIController.cs
   - A WebAPI Controller which allows to access information about students
@@ -36,6 +38,8 @@
   - A View which uses server rendering to display a page that allows for a user to enter a new student
 - /Views/StudentPage/DeleteConfirm.cshtml
   - A View which uses server rendering to display a “Confirm Delete” page for a student from the MySQL Database
+- /Views/StudentPage/Edit.cshtml
+  - A View which uses server rendering to display a page that allows for a user to Update a student
 
 
 - Controllers/CourseAPIController.cs
@@ -52,3 +56,5 @@
   - A View which uses server rendering to display a page that allows for a user to enter a new course
 - /Views/CoursePage/DeleteConfirm.cshtml
   - A View which uses server rendering to display a “Confirm Delete” page for a course from the MySQL Database
+- /Views/CoursePage/Edit.cshtml
+  - A View which uses server rendering to display a page that allows for a user to Update a course
