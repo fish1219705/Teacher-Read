@@ -51,5 +51,26 @@ namespace Teacher.Controllers
             int StudentId = _api.DeleteStudent(id);
             return RedirectToAction("List");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Student SelectedStudent = _api.FindStudent(id);
+            return View(SelectedStudent);
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, string StudentFirstName,  string StudentLastName, string StudentNumber, DateTime EnrolDate)
+        {
+            Student UpdatedStudent = new Student();
+            UpdatedStudent.StudentFirstName = StudentFirstName;
+            UpdatedStudent.StudentLastName = StudentLastName;
+            UpdatedStudent.StudentNumber = StudentNumber;
+            UpdatedStudent.EnrolDate = EnrolDate;
+
+            _api.UpdateStudent(id, UpdatedStudent);
+
+            return RedirectToAction("Show", new { id = id });
+        }
     }
 }

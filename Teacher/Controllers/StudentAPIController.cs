@@ -116,6 +116,7 @@ namespace Teacher.Controllers
             return SelectedStudent;
         }
 
+
         [HttpPost(template:"AddStudent")]
         public int AddStudent([FromBody] Student StudentData)
         {
@@ -150,6 +151,29 @@ namespace Teacher.Controllers
                 return Command.ExecuteNonQuery();
             }
             return 0;
+        }
+
+        [HttpPut(template:"UpdateStudent/{StudentId}")]
+        public Student UpdateStudent (int StudentId, [FromBody] Student StudentData)
+        {
+            using MySqlConnection Connection = _context.AccessDatabase();
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "update students set studentfname=@studentfname, studentlname=@studentlname, studentnumber=@studentnumber, enroldate=@enroldate where studentid=@id";
+                Command.Parameters.AddWithValue("@studentfname", StudentData.StudentFirstName);
+                Command.Parameters.AddWithValue("@studentlname", StudentData.StudentLastName);
+                Command.Parameters.AddWithValue("@studentnumber", StudentData.StudentNumber);
+                Command.Parameters.AddWithValue("@enroldate", StudentData.EnrolDate);
+
+                Command.Parameters.AddWithValue("@id", StudentId);
+
+                Command.ExecuteNonQuery();
+
+            }
+            return FindStudent(StudentId);
+            
         }
     }
 }

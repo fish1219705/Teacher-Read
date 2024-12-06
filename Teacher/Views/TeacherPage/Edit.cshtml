@@ -1,0 +1,139 @@
+﻿@model Teacher.Models.ATeacher
+
+<div id="containershow">
+    <nav>
+        <a class="navlink" href="/TeacherPage/Show/@Model.TeacherId">Back</a>
+    </nav>
+    <h2>New Teacher</h2>
+    <form method="POST" action="/TeacherPage/Update/@Model.TeacherId">
+        <div class="inputrow">
+            <label for="TeacherFirstName">First Name:</label>
+            <input type="text" id="TeacherFirstName" name="TeacherFirstName" value="@Model.TeacherFirstName" />
+            <span role="alert" id="fNameError" style="color:red;display:none;">
+                Please enter First Name
+            </span>
+
+        </div>
+        <div class="inputrow">
+            <label for="TeacherLastName">Last Name:</label>
+            <input type="text" id="TeacherLastName" name="TeacherLastName" value="@Model.TeacherLastName" />
+            <span role="alert" id="lNameError" style="color:red;display:none;">
+                Please enter Last Name
+            </span>
+
+        </div>
+        <div class="inputrow">
+            <label for="EmployeeNumber">Employee Number:</label>
+            <input type="text" id="EmployeeNumber" name="EmployeeNumber" value="@Model.EmployeeNumber" />
+        </div>
+        <div class="inputrow">
+            <label for="HireDate">Hire Date:</label>
+            <input type="text" id="HireDate" name="HireDate" value="@Model.HireDate" placeholder="YYYY/m/dd"/>
+            <span role="alert" id="hireDateError" style="color:red;display:none;">
+                Please enter Valid Date
+            </span>
+        </div>
+        <div class="inputrow">
+            <label for="Salary">Salary:</label>
+            <input type="text" id="Salary" name="Salary" value="@Model.Salary" />
+            <span role="alert" id="SalaryError" style="color:red;display:none;">
+                Please enter Valid Number for Salary
+            </span>
+        </div>
+        <div class="inputrow">
+            <input type="submit" value="Update Teacher" id="submit"/>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Validation script
+    document.getElementById("submit").addEventListener("click", function (event) {
+        // Get input values
+        const firstName = document.getElementById("TeacherFirstName").value.trim();
+        const lastName = document.getElementById("TeacherLastName").value.trim();
+        const hireDateInput = document.getElementById("HireDate").value.trim();
+        const salaryInput = document.getElementById("Salary").value.trim();
+
+        // Get error message elements
+        const fNameError = document.getElementById("fNameError");
+        const lNameError = document.getElementById("lNameError");
+        const hireDateError = document.getElementById("hireDateError");
+        const salaryError = document.getElementById("SalaryError");
+
+        // Initialize validation state
+        let isValid = true;
+
+        // Validate First Name
+        if (!firstName) {
+            fNameError.style.display = "inline";
+            fNameError.setAttribute("aria-hidden", "false");
+            isValid = false;
+        } else {
+            fNameError.style.display = "none";
+            fNameError.setAttribute("aria-hidden", "true");
+        }
+
+        // Validate Last Name
+        if (!lastName) {
+            lNameError.style.display = "inline";
+            lNameError.setAttribute("aria-hidden", "false");
+            isValid = false;
+        } else {
+            lNameError.style.display = "none";
+            lNameError.setAttribute("aria-hidden", "true");
+        }
+
+        // Validate Hire Date
+        if (hireDateInput) {
+            const hireDate = new Date(hireDateInput);
+            const today = new Date();
+
+            if (hireDate > today) {
+                hireDateError.style.display = "inline";
+                hireDateError.setAttribute("aria-hidden", "false");
+                isValid = false;
+            } else {
+                hireDateError.style.display = "none";
+                hireDateError.setAttribute("aria-hidden", "true");
+            }
+        } else {
+            hireDateError.style.display = "inline";
+            hireDateError.textContent = "Please enter a valid date";
+            hireDateError.setAttribute("aria-hidden", "false");
+            isValid = false;
+        }
+
+        // Validate Salary
+        if (salaryInput) {
+            const salary = parseFloat(salaryInput);
+            if (isNaN(salary) || salary < 0) {
+                salaryError.style.display = "inline";
+                salaryError.setAttribute("aria-hidden", "false");
+                isValid = false;
+            } else {
+                salaryError.style.display = "none";
+                salaryError.setAttribute("aria-hidden", "true");
+            }
+        } else {
+            salaryError.style.display = "inline";
+            salaryError.textContent = "Please enter a valid number for Salary";
+            salaryError.setAttribute("aria-hidden", "false");
+            isValid = false;
+        }
+
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    // Ensure error messages are hidden on page load
+    window.addEventListener("load", function () {
+        document.getElementById("fNameError").style.display = "none";
+        document.getElementById("lNameError").style.display = "none";
+        document.getElementById("hireDateError").style.display = "none";
+        document.getElementById("SalaryError").style.display = "none";
+    });
+</script>
+

@@ -1,6 +1,10 @@
 ﻿@model Teacher.Models.Course
 <h1>@Model.CourseCode @Model.CourseName</h1>
-<a href="/CoursePage/List">Back to List</a> <a class="alert-warning" href="/CoursePage/DeleteConfirm/@Model.CourseId">Delete</a>
+<nav>
+    <a href="/CoursePage/List">Back to List</a>
+    <a class="alert-warning" href="/CoursePage/DeleteConfirm/@Model.CourseId">Delete</a>
+    <a href="/CoursePage/Edit/@Model.CourseId">Edit</a>
+</nav>
 <p>Teacher ID: @Model.TeacherId.ToString()</p>
-<p>Start Date: @Model.StartDate.ToString("yyyy-M-d")</p>
-<p>Finish Date: @Model.FinishDate.ToString("yyyy-M-d")</p>
+<p><span style="font-style:italic">Start Date: @Model.StartDate.ToString("yyyy-M-d")</span></p>
+<p><span style="font-style:italic">Finish Date: @Model.FinishDate.ToString("yyyy-M-d")</span></p>

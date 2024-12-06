@@ -21,13 +21,13 @@ namespace Teacher.Controllers
 
 
         /// <summary>
-        /// This method will return a list of teachers
+        /// Returns a list of Teachers in the system. If a search key is included, search for teachers with a year of hire date matching.
         /// </summary>
         /// <example>
-        /// GET： api/Teacher/ListTeachers -> [{"teacherId":1,"teacherFirstName":"Alexander","teacherLastName":"Bennett","employeeNumber":"T378","hireDate":"2016-08-05T00:00:00","salary":55.30},{"teacherId":2,"teacherFirstName":"Caitlin","teacherLastName":"Cummings","employeeNumber":"T381","hireDate":"2014-06-10T00:00:00","salary":62.77}.....]
+        /// GET: api/Teacher/ListTeachers?SearchKey=2015 -> [{"teacherId":3,"teacherFirstName":"Linda","teacherLastName":"Chan","employeeNumber":"T382","hireDate":"2015-08-22T00:00:00","salary":60.22,"teacherCourse":null},{"teacherId":10,"teacherFirstName":"John","teacherLastName":"Taram","employeeNumber":"T505","hireDate":"2015-10-23T00:00:00","salary":79.63,"teacherCourse":null}]
         /// </example>
         /// <returns>
-        /// A list of teacher objects
+        /// A list of teacher objects 
         /// </returns>
         [HttpGet]
         [Route(template: "ListTeachers")]
@@ -240,6 +240,57 @@ namespace Teacher.Controllers
             //}
             // if failure
             return 0;
+        }
+
+        /// <summary>
+        /// Updates a teacher in the database. Data is Teacher object, request body query contains ID
+        /// </summary>
+        /// <param name="TeacherId">The Teacher ID primary key</param>
+        /// <param name="TeacherData">Teacher Object</param>
+        /// <example>
+        /// PUT: api/Teacher/UpdateTeacher/????
+        /// Headers: Content-Type: application/json
+        /// Request Body:
+        /// {
+        ///	    "TeacherFirstName":"Melyssa",
+        ///	    "TeacherLastName":"Lake",
+        ///	    "EmployeeNumber":"0001",
+        ///	    "HireDate":"2024-12-02",
+        ///	    "Salary":"50"
+        /// } -> 
+        /// {
+        ///     "TeacherId":12 ,
+        ///	    "TeacherFirstName":"Melyssa",
+        ///	    "TeacherLastName":"Lake",
+        ///	    "EmployeeNumber":"0001",
+        ///	    "HireDate":"2024-12-02",
+        ///	    "Salary":"50"
+        /// }
+        /// </example>
+        /// <returns>
+        /// The updates Teacher object
+        /// </returns>
+        [HttpPut(template:"UpdateTeacher/{TeacherId}")]
+        public ATeacher UpdateTeacher(int TeacherId, [FromBody] ATeacher TeacherData)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "update teachers set teacherfname=@teacherfname, teacherlname=@teacherlname, employeenumber=@employeenumber, hiredate=@hiredate, salary=@salary where teacherid=@id";
+                Command.Parameters.AddWithValue("@teacherfname", TeacherData.TeacherFirstName);
+                Command.Parameters.AddWithValue("@teacherlname", TeacherData.TeacherLastName);
+                Command.Parameters.AddWithValue("@employeenumber", TeacherData.EmployeeNumber);
+                Command.Parameters.AddWithValue("@hiredate", TeacherData.HireDate);
+                Command.Parameters.AddWithValue("@salary", TeacherData.Salary);
+
+                Command.Parameters.AddWithValue("@id", TeacherId);
+
+                Command.ExecuteNonQuery();
+
+            }
+            return FindTeacher(TeacherId);
         }
     }
 }

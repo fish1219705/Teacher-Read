@@ -51,5 +51,27 @@ namespace Teacher.Controllers
             int CourseId = _api.DeleteCourse(id);
             return RedirectToAction("List");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Course SelectedCourse = _api.FindCourse(id);
+            return View(SelectedCourse);
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, string CourseCode, int TeacherId, DateTime StartDate, DateTime FinishDate, string CourseName)
+        {
+            Course UpdatedCourse = new Course();
+            UpdatedCourse.CourseCode = CourseCode;
+            UpdatedCourse.TeacherId = TeacherId;
+            UpdatedCourse.StartDate = StartDate;
+            UpdatedCourse.FinishDate = FinishDate;
+            UpdatedCourse.CourseName = CourseName;
+
+            _api.UpdateCourse(id, UpdatedCourse);
+
+            return RedirectToAction("Show", new {id = id});
+        }
     }
 }

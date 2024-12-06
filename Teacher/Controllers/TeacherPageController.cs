@@ -62,5 +62,30 @@ namespace Teacher.Controllers
             int TeacherId = _api.DeleteTeacher(id);
             return RedirectToAction("List");
         }
+
+        // GET: TeacherPage/Edit/{id}
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ATeacher SelectedTeacher = _api.FindTeacher(id);
+            return View(SelectedTeacher);
+        }
+
+        // POST: TeacherPage/Update/{id}
+        [HttpPost]
+        public IActionResult Update(int id, string TeacherFirstName, string TeacherLastName, string EmployeeNumber, DateTime HireDate, Decimal Salary)
+        {
+            ATeacher UpdatedTeacher = new ATeacher();
+            UpdatedTeacher.TeacherFirstName = TeacherFirstName; ;
+            UpdatedTeacher.TeacherLastName = TeacherLastName;
+            UpdatedTeacher.EmployeeNumber = EmployeeNumber;
+            UpdatedTeacher.HireDate = HireDate;
+            UpdatedTeacher.Salary = Salary;
+
+            _api.UpdateTeacher(id, UpdatedTeacher);
+
+            return RedirectToAction("Show", new { id = id });
+
+        }
     }
 }

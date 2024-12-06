@@ -49,7 +49,7 @@ namespace Teacher.Controllers
                         int Id = Convert.ToInt32(ResultSet["courseid"]);
                         string Code = ResultSet["coursecode"].ToString();
                         int TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
-                        
+
                         DateTime SDate = Convert.ToDateTime(ResultSet["startdate"]);
                         DateTime FDate = Convert.ToDateTime(ResultSet["finishdate"]);
                         string Name = ResultSet["coursename"].ToString();
@@ -120,7 +120,7 @@ namespace Teacher.Controllers
             return SelectedCourse;
         }
 
-        [HttpPost(template:"AddCourse")]
+        [HttpPost(template: "AddCourse")]
         public int AddCourse([FromBody] Course CourseData)
         {
             using (MySqlConnection Connection = _context.AccessDatabase())
@@ -155,6 +155,28 @@ namespace Teacher.Controllers
                 return Command.ExecuteNonQuery();
             }
             return 0;
+        }
+
+        [HttpPut(template: "UpdateCourse/{CourseId}")]
+        public Course UpdateCourse(int CourseId, [FromBody] Course CourseData)
+        {
+            using MySqlConnection Connection = _context.AccessDatabase();
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "update courses set coursecode=@coursecode, teacherid=@teacherid, startdate=@startdate, finishdate=@finishdate, coursename=@coursename where courseid=@id";
+                Command.Parameters.AddWithValue("@coursecode", CourseData.CourseCode);
+                Command.Parameters.AddWithValue("@teacherid", CourseData.TeacherId);
+                Command.Parameters.AddWithValue("@startdate", CourseData.StartDate);
+                Command.Parameters.AddWithValue("@finishdate", CourseData.FinishDate);
+                Command.Parameters.AddWithValue("@coursename", CourseData.CourseName);
+
+                Command.Parameters.AddWithValue("@id", CourseId);
+
+                Command.ExecuteNonQuery();
+            }
+            return FindCourse(CourseId);
         }
     }
 }
